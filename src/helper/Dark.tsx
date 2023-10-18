@@ -1,4 +1,4 @@
-import React, {  useContext, useState } from 'react'
+import React, {  useContext } from 'react'
 import moon from '../images/moon.png'
 import sunn from '../images/sunn.png'
 import { ThemeContext } from './ThemeContext'
@@ -14,8 +14,6 @@ const Dark = () => {
   return (
 
     <>
-                        <p className=' text-red-600 text-2xl'>p{mode?'vrai':'faux'}</p>
-
     <div className=' flex items-center'>
         <input className='hidden' type='checkbox' checked={mode} id='mode' onChange={handleChange}/> 
       

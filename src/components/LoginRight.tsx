@@ -3,7 +3,6 @@ import facebook from '../images/facebook.png'
 import instagram from '../images/instagram.png'
 import google from '../images/google.jpg'
 import Dark from '../helper/Dark'
-import { ThemeContextProvider } from '../helper/ThemeContext'
 
 
 
@@ -108,7 +107,7 @@ const LoginRight:FunctionComponent = () => {
  }
   return (
     
-    <div className=' px-20 py-7'>
+    <div className={` px-20 py-7 `} >
 <div className={` float-right }`}>
   <Dark/>
   </div>  
