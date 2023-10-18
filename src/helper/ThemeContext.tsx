@@ -13,7 +13,7 @@ interface ThemeCo{
  }
 
  const ThemeContextProvider:FunctionComponent<props>=({children})=>{
-    const [mode , setMode]= useState<boolean>(false)
+    const [mode , setMode]= useState<boolean>(true)
     const handleChange=()=>{
     setMode(!mode)
     }

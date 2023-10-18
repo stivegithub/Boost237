@@ -1,5 +1,5 @@
-import React,{useContext} from "react";
-import { ThemeContext } from "./ThemeContext";
+import {useContext} from "react";
+import { ThemeContext } from "../helper/ThemeContext";
 
 export default function useThemeContext():boolean{
     const  modes = useContext(ThemeContext);

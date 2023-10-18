@@ -1,4 +1,3 @@
-import TiretClignotant from '../helper/TiretClignotant'
 import React, { FunctionComponent, useEffect, useState } from 'react'
 
 type props={
@@ -11,15 +10,7 @@ const Typewriter:FunctionComponent<props> = ({text, spedd=100}) => {
     const [index, setIndex]= useState<number>(0);
     const [isDeleting, setIsDeleting]=useState<boolean>(false)
     const [textIndex, setTextIndex]=useState<number>(0)
-    const [tiret, setTiret]= useState('')
     
-    useEffect(()=>{
-        
-      const times=   setTimeout(() => {
-           return (setTiret('|'))
-        }, 1000);
-        return ()=> clearTimeout(times)
-    })
 
     useEffect(()=>{
         let timeoutId:any;
@@ -60,8 +51,8 @@ const Typewriter:FunctionComponent<props> = ({text, spedd=100}) => {
         return ()=>clearTimeout(timeoutId)
     },[text, textIndex, index, isDeleting, spedd])
   return (
-    <div>
-      {displayedText +'|'} {<TiretClignotant speed={spedd}/>}
+    <div onClick={()=>console.log(displayedText)} >
+      {displayedText + '|' } 
     </div>
   )
 }

@@ -3,11 +3,15 @@ import facebook from '../images/facebook.png'
 import instagram from '../images/instagram.png'
 import google from '../images/google.jpg'
 import Dark from '../helper/Dark'
+import useDimension from '../tools/useDimension'
+import { useSmallScreen } from '../tools/useSmallScreen'
+import Typewriter from '../helper/Typewriter'
 
 
 
 const LoginRight:FunctionComponent = () => {
-  
+  const smallscreen= useSmallScreen()
+  const size= useDimension()
   const [exist, setExist]= useState<boolean>(false)
   const [isChecked, setIsChecked]=useState<boolean>(false)
   useEffect(()=>{
@@ -17,6 +21,8 @@ const LoginRight:FunctionComponent = () => {
       
     }, 2000);
   })
+  const text=[' le travail', ' le professionnalisme', " l'efficacite", " le respect des delais", "la rigueur"]
+
  const connx:string= 'Creer un compte'
  const category= ["Rejoindre l'equipe", "Souscrire a un service"]
  type Field={
@@ -107,7 +113,7 @@ const LoginRight:FunctionComponent = () => {
  }
   return (
     
-    <div className={` px-20 py-7 `} >
+    <div className={`${smallscreen? ' px-2 py-7' : ' px-7 py-7'} `} >
 <div className={` float-right }`}>
   <Dark/>
   </div>  
@@ -115,9 +121,9 @@ const LoginRight:FunctionComponent = () => {
 
 
   <form  onSubmit={handleSubmit} className=' px-3 gap-7 flex flex-col'>
-<input placeholder='Username' className='w-full placeholder:text-gray-500 focus:border-b-4  focus:border-blue-600     border-b border-gray-500  focus:outline-none '  name='username' value={form.username.value} onChange={(e)=> handleInput(e)}/>
-<input placeholder='Email' className='w-full placeholder:text-gray-500 focus:border-b-4  focus:border-blue-600     border-b border-gray-500  focus:outline-none '  name='email' value={form.email.value} onChange={(e)=> handleInput(e)} type='email' />
-<input placeholder='Password' className='w-full placeholder:text-gray-500 focus:border-b-4  focus:border-blue-600     border-b border-gray-500  focus:outline-none '  name='password' value={form.password.value} onChange={(e)=> handleInput(e)} type='password'/>
+<input placeholder='Username' className=' rounded-md w-full placeholder:text-gray-500 focus:border-b-4  focus:border-blue-600     border-b border-gray-500  focus:outline-none '  name='username' value={form.username.value} onChange={(e)=> handleInput(e)}/>
+<input placeholder='Email' className='rounded-md w-full placeholder:text-gray-500 focus:border-b-4  focus:border-blue-600     border-b border-gray-500  focus:outline-none '  name='email' value={form.email.value} onChange={(e)=> handleInput(e)} type='email' />
+<input placeholder='Password' className='rounded-md w-full placeholder:text-gray-500 focus:border-b-4  focus:border-blue-600     border-b border-gray-500  focus:outline-none '  name='password' value={form.password.value} onChange={(e)=> handleInput(e)} type='password'/>
 <select name="category" id="" className=' focus:outline-none bg-gray-300 py-1 rounded-md'>
   {category.map(category=>(<option>{category}</option>))}
   </select>  
@@ -143,6 +149,8 @@ const LoginRight:FunctionComponent = () => {
 </div>
 <div className=' text-center text-lg'>Consulter notre politique de securité <span className=' underline font-semibold  text-blue-600 '>ici</span></div>
  </form>
+ <div className='  text-2xl text-center mt-3  mb-2'><Typewriter text={text}  spedd={200}/></div>
+
 </div>
 
 

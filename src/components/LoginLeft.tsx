@@ -1,8 +1,8 @@
-import React, { FunctionComponent } from 'react'
+import  { FunctionComponent } from 'react'
 import logo from '../images/logo.png'
 import Typewriter from '../helper/Typewriter'
 import image1 from '../images/image1.png'
-import useThemeContext from '../helper/useThemeContext'
+import useThemeContext from '../tools/useThemeContext'
 
 
 const LoginLeft:FunctionComponent = () => {
