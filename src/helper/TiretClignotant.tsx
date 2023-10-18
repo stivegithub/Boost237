@@ -9,7 +9,7 @@ const TiretClignotant:FunctionComponent<props> = ({speed}) => {
     useEffect(()=>{
         setTimeout(() => {
             setExist(prevExist=>prevExist = !prevExist)
-            console.log(exist)
+           
         }, 2000);
     },[speed, exist])
   return (

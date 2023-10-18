@@ -1,8 +1,16 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
+import facebook from '../images/facebook.png'
+import instagram from '../images/instagram.png'
+import google from '../images/google.jpg'
+import Dark from '../helper/Dark'
+import { ThemeContextProvider } from '../helper/ThemeContext'
+
+
 
 const LoginRight:FunctionComponent = () => {
   
   const [exist, setExist]= useState<boolean>(false)
+  const [isChecked, setIsChecked]=useState<boolean>(false)
   useEffect(()=>{
     setTimeout(() => {
       setExist(prevExist=>prevExist = !prevExist)
@@ -99,16 +107,43 @@ const LoginRight:FunctionComponent = () => {
   setForm({...form, ...{category:newField}})
  }
   return (
-    <div className=' px-20 py-3'>
-<div className={` float-right }`}><h3>Mode clair/sombre</h3></div>  
-<div className= {`mt-7 font-semibold to-black text-2xl ${exist? 'invisible':`visible`}`}>{connx}</div>    
+    
+    <div className=' px-20 py-7'>
+<div className={` float-right }`}>
+  <Dark/>
+  </div>  
+<div className= {`mt-7 mb-7 font-semibold to-black text-3xl ${exist? 'invisible':`visible`}`}>{connx}</div>    
 
 
-  <form action="" onSubmit={handleSubmit} className=' w-full'>
-   <div className=' px-3'>
-    <input placeholder='Username' className='w-full placeholder:text-gray-500 focus:text-3xl focus:rounded-lg focus:border-dashed'  name='username' value={form.username.value} onChange={(e)=> handleInput(e)}/>
-   </div>
-  </form>
+  <form  onSubmit={handleSubmit} className=' px-3 gap-7 flex flex-col'>
+<input placeholder='Username' className='w-full placeholder:text-gray-500 focus:border-b-4  focus:border-blue-600     border-b border-gray-500  focus:outline-none '  name='username' value={form.username.value} onChange={(e)=> handleInput(e)}/>
+<input placeholder='Email' className='w-full placeholder:text-gray-500 focus:border-b-4  focus:border-blue-600     border-b border-gray-500  focus:outline-none '  name='email' value={form.email.value} onChange={(e)=> handleInput(e)} type='email' />
+<input placeholder='Password' className='w-full placeholder:text-gray-500 focus:border-b-4  focus:border-blue-600     border-b border-gray-500  focus:outline-none '  name='password' value={form.password.value} onChange={(e)=> handleInput(e)} type='password'/>
+<select name="category" id="" className=' focus:outline-none bg-gray-300 py-1 rounded-md'>
+  {category.map(category=>(<option>{category}</option>))}
+  </select>  
+<div className=' flex'>  <div className='  items-center'><input type="checkbox" id='check' className=' hidden' checked={isChecked} onChange={()=>setIsChecked(!isChecked)} /> <label htmlFor='check' className='  items-center cursor-pointer'><div className={`w-5 h-5 border border-gray-300 rounded mr-2 ${isChecked? 'bg-blue-500': 'bg-white'}`}></div></label></div> <div>Accepter les termes de confidentialités</div> 
+</div>
+<button type='submit' className='cursor-pointer mt-2 w-full bg-blue-500 text-white rounded-xl text-center py-1 '>Connexion
+</button> 
+
+<div className=' grid grid-cols-6  mt-2'>
+  <div className=' col-span-2 mt-2'><hr /></div>
+  <div className=' col-span-2 text-center'>Or sign up with</div>
+  <div className=' col-span-2 mt-2'><hr /></div>
+
+</div>
+
+<div className='  flex gap-x-9 justify-center'>
+  <div className=' p-2 rounded-full shadow-lg '><img src={facebook} alt='facebook' width={30} height={30}/>
+</div> 
+<div className=' p-2 rounded-full shadow-lg flex items-center justify-center'><img src={instagram} alt='instagram' width={30} height={30}/>
+</div>
+<div className=' p-2 rounded-full shadow-lg flex items-center justify-center'><img src={google} alt='instagram' width={30} height={30}/>
+</div>
+</div>
+<div className=' text-center text-lg'>Consulter notre politique de securité <span className=' underline font-semibold  text-blue-600 '>ici</span></div>
+ </form>
 </div>
 
 
