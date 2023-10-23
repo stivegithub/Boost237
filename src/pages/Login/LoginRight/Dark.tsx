@@ -1,7 +1,7 @@
 import React, {  useContext } from 'react'
-import moon from '../images/moon.png'
-import sunn from '../images/sunn.png'
-import { ThemeContext } from './ThemeContext'
+import moon from '../../../images/moon.png'
+import sunn from '../../../images/sunn.png'
+import { ThemeContext } from '../../../helper/ThemeContext'
 
 const Dark = () => {
     const themecontext=useContext(ThemeContext)

@@ -1,4 +1,4 @@
-import  { useEffect, useState} from "react";
+import  {useEffect, useState} from "react";
 
 interface size{
     largeur:number,
@@ -8,8 +8,13 @@ interface size{
 const  useDimension=()=>{
     const [size, setSize]= useState<size>({largeur:window.innerWidth, hauteur: window.innerHeight})
     useEffect(()=>{
-        setSize({hauteur:window.innerHeight, largeur:window.innerWidth})
-    }, [size.hauteur, size.largeur])
+        let timer:any
+        timer= setTimeout(() => {
+            setSize({hauteur:window.innerHeight, largeur:window.innerWidth})
+            return()=>clearTimeout(timer)
+        }, 1);
+    },[])
+   
   return size;
 }
 export default useDimension;
