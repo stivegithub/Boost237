@@ -2,11 +2,12 @@ import React, { FunctionComponent, useContext, useEffect, useState } from 'react
 import Dark from './Dark'
 import { useSmallScreen } from '../../../tools/useSmallScreen'
 import axios from 'axios'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, Navigate, redirect, useNavigate } from 'react-router-dom'
 import Confetti from 'react-confetti'
 import Media from './Media'
 import { EmailContext } from '../../../helper/EmailContext'
 import redirector from './redirect'
+import { validContext } from '../../../helper/validContext'
 
 interface error{
   email:string,
@@ -14,6 +15,11 @@ interface error{
 }
  
 const LoginRight:FunctionComponent = () => {
+  const valid= useContext(validContext)
+  if(!valid){
+    throw new Error('une erreur est survenue')
+  }
+  const {setVal, val}= valid
   const categories= ["Souscrire a un service", "Rejoindre l'equipe"]
 
   const navigator= useNavigate()
@@ -68,11 +74,15 @@ const LoginRight:FunctionComponent = () => {
  try{
   const  response= await axios.post('http://localhost:2003/register', {email, password, category} );
   if(response.data.message){
-   console.log(response.data.message)
+   console.log(response.data.token)
+   localStorage.setItem('token', response.data.token)
    setShowConfetti(true)
+   setVal(true);
+   window.location.reload()
+   console.log(val)
    setTimeout(() => {
-    redirector(category, categories) ? navigator('/client') : navigator('/travailleur')
-   }, 3000);
+    redirector(category, categories)?  navigator('/client'):navigator('/travailleur')
+  }, 3000);
   }
 
 
@@ -99,15 +109,10 @@ const LoginRight:FunctionComponent = () => {
       const response= await axios.post('http://localhost:2003/login', {email , password})
      if(response.data.message){
       setShowConfetti(true)
-      localStorage.setItem('token', response.data.token)
       setTimeout(() => {
       redirector(response.data.category, categories)?  navigator('/client'):navigator('/travailleur')
-        
-      }, 20000);
-     
-      
+      }, 3000);
      }
-
     }
     catch(error:any){
       if(error.response &&  error.response.data){ 
@@ -162,7 +167,7 @@ const LoginRight:FunctionComponent = () => {
 
 {conn && <select name="category" id="" value={category} className=' focus:outline-none bg-gray-300 py-1 rounded-md' onChange={(e)=>{setCategory(e.target.value); }}>  {categories.map(categor=>(<option key={categor} id={categor}>{categor}</option>))}  </select> }
 { conn && <div className=' flex'>  <div className='  items-center'><input type="checkbox" id='check' className=' hidden' checked={isChecked} onChange={()=>setIsChecked(!isChecked)} /> <label htmlFor='check' className='  items-center cursor-pointer'><div className={`w-5 h-5 border border-gray-300 rounded mr-2 ${isChecked? 'bg-blue-500': 'bg-white'}`}></div></label></div> <div className={`${terme? ' text-red-500' :''}`}>Accepter les termes de confidentialités</div> </div>}
-<button type='submit' onClick={validator} className='cursor-pointer mt-2 w-full bg-red-600 text-white rounded-xl text-center py-1 '>Connexion</button> 
+<button type='submit' onClick={validator} className='cursor-pointer mt-2 w-full bg-gradient-to-r from-red-500 to-yellow-500 rounded-xl text-center py-1 '>Connexion</button> 
 <div className={`text-center cursor-pointer`} onClick={()=>{setConn(!conn)}}>{ conn?'se connecter':' Creer un compte' } </div>
 
 <div className=' grid grid-cols-6  mt-2'><div className=' col-span-2 mt-2'><hr /></div>  <div className=' col-span-2 text-center'>Or sign up with</div>  <div className=' col-span-2 mt-2'><hr /></div></div>

@@ -1,6 +1,12 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [],
+  content: [
+    "./src/*",
+    "./src/components/*",
+    "./src/helper/*",
+    "src/pages/*",
+    "/src/pages/Login/LoginRight/LoginRight.tsx",
+  ],
   theme: {
     extend: {
       transitionDelay: {

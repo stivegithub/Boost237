@@ -12,7 +12,7 @@ interface props{
 } 
  
  const AuthProvider:FunctionComponent<props>=({children})=>{
-    const [connect, setConnect]=useState(false);
+    const [connect, setConnect]=useState(true);
     return <AuthContext.Provider value={{ connect, setConnect }}>
         {children}
     </AuthContext.Provider>
