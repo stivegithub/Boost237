@@ -1,31 +1,23 @@
-import React, { FunctionComponent, useContext, useEffect, useState } from 'react'
+import React, { FunctionComponent, useEffect, useState } from 'react'
 import Dark from './Dark'
 import { useSmallScreen } from '../../../tools/useSmallScreen'
 import axios from 'axios'
-import { Link, Navigate, redirect, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Confetti from 'react-confetti'
 import Media from './Media'
-import { EmailContext } from '../../../helper/EmailContext'
-import redirector from './redirect'
-import { validContext } from '../../../helper/validContext'
 
 interface error{
   email:string,
-  password:string
+  password:string,
+  username:string
 }
  
 const LoginRight:FunctionComponent = () => {
-  const valid= useContext(validContext)
-  if(!valid){
-    throw new Error('une erreur est survenue')
-  }
-  const {setVal, val}= valid
-  const categories= ["Souscrire a un service", "Rejoindre l'equipe"]
+    const categories= ["Souscrire a un service", "Rejoindre l'equipe"]
 
-  const navigator= useNavigate()
   const smallscreen= useSmallScreen()
   const [category, setCategory]=useState<string>(categories[0])
-  const [error, setErrors]=useState<error>({email:'', password:''})
+  const [error, setErrors]=useState<error>({email:'', password:'', username:""})
   const [err , setErr]=useState({message1:'', message2:'', message3:'',})
   const [showConfetti, setShowConfetti]=useState<boolean>(false)
   const [exist, setExist]= useState<boolean>(false)
@@ -41,17 +33,13 @@ const LoginRight:FunctionComponent = () => {
 
   const [email, setEmail]=useState<string>('')
   const [password, setPassword]=useState<string>('')
-  const [newPassword, setNewPassord]=useState<String>('')
-  const [token, setToken]=useState<String>('')
-  const [terme, setTermes]=useState<boolean>(false)
-  const [message, setMessage]=useState<string>('')
+  const [username, setUsername]=useState<string>('')
+
+  const terme:boolean=false
+  const message:string=''
   const [conn , setConn]=useState<boolean>(true)
 
-  const Email= useContext(EmailContext)
-  if(!Email){
-    throw new Error('something is wrong')
-  }
-  const {change}= Email
+ 
 
 
 
@@ -72,26 +60,28 @@ const LoginRight:FunctionComponent = () => {
     e.preventDefault();
 
  try{
-  const  response= await axios.post('http://localhost:2003/register', {email, password, category} );
+  const  response= await axios.post('http://localhost:2003/register', {username, email, password, category} );
   if(response.data.message){
    console.log(response.data.token)
-   localStorage.setItem('token', response.data.token)
    setShowConfetti(true)
-   setVal(true);
+    setTimeout(() => {
+   localStorage.setItem('token', response.data.token)
    window.location.reload()
-   console.log(val)
-   setTimeout(() => {
-    redirector(category, categories)?  navigator('/client'):navigator('/travailleur')
-  }, 3000);
+    }, 3000);
+ 
   }
 
 
  }
  catch(error:any){
    if(error.response && error.response.data ){
+    if(error.response.data.username){
+      setErrors({...error, username:error.response.data.username})
+
+    }
     if(error.response.data.email){
       console.log(error.response.data.email)
-      setErrors({password:error.response.data.password, email:error.response.data.email})
+      setErrors({...error, password:error.response.data.password, email:error.response.data.email})
     }
     if(error.response.data.password){
       setErrors({...error, password:error.response.data.password})
@@ -108,9 +98,10 @@ const LoginRight:FunctionComponent = () => {
     try{
       const response= await axios.post('http://localhost:2003/login', {email , password})
      if(response.data.message){
-      setShowConfetti(true)
+     setShowConfetti(true)
       setTimeout(() => {
-      redirector(response.data.category, categories)?  navigator('/client'):navigator('/travailleur')
+     localStorage.setItem('token', response.data.token)
+      window.location.reload()  
       }, 3000);
      }
     }
@@ -134,9 +125,7 @@ const LoginRight:FunctionComponent = () => {
   
    }
   
-  const changePassword= async()=>{
-    await axios.post('http://localhost:2003/change-password', {token, newPassword})
-  }
+  
 
   return (
     
@@ -148,7 +137,9 @@ const LoginRight:FunctionComponent = () => {
  
   <form  onSubmit={(e)=> conn? register(e):login(e)} className=' px-3 gap-7 flex flex-col'>
 
-<input placeholder='Email'  className=' rounded-md w-full placeholder:text-gray-500 focus:border-b-4  focus:border-blue-600     border-b border-gray-500  focus:outline-none ' type='text'  name='Email'   value={email} onChange={(e)=> {setEmail(e.target.value); change(e.target.value)}}/>
+{conn && <input placeholder='Username'  className=' rounded-md w-full placeholder:text-gray-500 focus:border-b-4  focus:border-blue-600     border-b border-gray-500  focus:outline-none ' type='text'  name='Username'   value={username} onChange={(e)=> {setUsername(e.target.value); }}/>}
+
+<input placeholder='Email'  className=' rounded-md w-full placeholder:text-gray-500 focus:border-b-4  focus:border-blue-600     border-b border-gray-500  focus:outline-none ' type='text'  name='Email'   value={email} onChange={(e)=> {setEmail(e.target.value); }}/>
 {error.email && <div className=' text-red-400'>{error.email}</div>}
 {err.message1 && <div className=' text-red-400'>{err.message1}</div>}
 {err.message2 && <div className=' text-red-400'>{err.message2}</div>}
@@ -167,7 +158,7 @@ const LoginRight:FunctionComponent = () => {
 
 {conn && <select name="category" id="" value={category} className=' focus:outline-none bg-gray-300 py-1 rounded-md' onChange={(e)=>{setCategory(e.target.value); }}>  {categories.map(categor=>(<option key={categor} id={categor}>{categor}</option>))}  </select> }
 { conn && <div className=' flex'>  <div className='  items-center'><input type="checkbox" id='check' className=' hidden' checked={isChecked} onChange={()=>setIsChecked(!isChecked)} /> <label htmlFor='check' className='  items-center cursor-pointer'><div className={`w-5 h-5 border border-gray-300 rounded mr-2 ${isChecked? 'bg-blue-500': 'bg-white'}`}></div></label></div> <div className={`${terme? ' text-red-500' :''}`}>Accepter les termes de confidentialités</div> </div>}
-<button type='submit' onClick={validator} className='cursor-pointer mt-2 w-full bg-gradient-to-r from-red-500 to-yellow-500 rounded-xl text-center py-1 '>Connexion</button> 
+<button type='submit' onClick={validator} className='cursor-pointer mt-2 w-full bg-gradient-to-r from-cyan-500 via-red-400 to-yellow-500 rounded-xl text-center py-1  text-white'>Connexion</button> 
 <div className={`text-center cursor-pointer`} onClick={()=>{setConn(!conn)}}>{ conn?'se connecter':' Creer un compte' } </div>
 
 <div className=' grid grid-cols-6  mt-2'><div className=' col-span-2 mt-2'><hr /></div>  <div className=' col-span-2 text-center'>Or sign up with</div>  <div className=' col-span-2 mt-2'><hr /></div></div>
@@ -177,7 +168,6 @@ const LoginRight:FunctionComponent = () => {
 { conn && <div className=' text-center text-lg'>Consulter notre politique de securité <span className=' underline font-semibold  text-blue-600 '><Link to={'/politique-confidentialite'}>ici</Link></span></div>} 
  
 {message&& <p className=' text-green-400' >{message}</p>}
-{token && <div>{token}</div>}
  </form>
  
 </div>

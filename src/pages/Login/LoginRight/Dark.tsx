@@ -14,11 +14,11 @@ const Dark = () => {
   return (
 
     <>
-    <div className=' flex items-center px-2'>
+    <div className=' flex items-center  bg-gradient-to-r from-blue-50  to-yellow-50  rounded-md border-1 '>
         <input className='hidden' type='checkbox' checked={mode} id='mode' onChange={handleChange}/> 
       
         <label  htmlFor='mode'>
-            <div className={`  border-black border-2 cursor-pointer px-1 justify-between w-16 h-6 rounded-xl ${mode? ' bgg': ' bg-gray-200'} flex flex-auto items-center`}>
+            <div className={`    cursor-pointer px-1 justify-between w-16 h-6 rounded-xl ${mode? '': ' bg-gray-200'} flex flex-auto items-center`}>
                 <div className='  w-5 h-5 bg-white flex items-center justify-center rounded-full ' >
                     <img   src={moon} alt="" className={`${mode? ' transition opacity-10  duration-300 delay-600' : ' opacity-100' }`} />
                     </div>

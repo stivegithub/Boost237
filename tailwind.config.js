@@ -1,19 +1,11 @@
-/** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./src/*",
-    "./src/components/*",
-    "./src/helper/*",
-    "src/pages/*",
-    "/src/pages/Login/LoginRight/LoginRight.tsx",
-  ],
+  content: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
+  darkMode: false,
   theme: {
     extend: {
-      transitionDelay: {
-        250: "250ms",
-        500: "500ms",
-      },
+      backGroundColor: ["active"],
     },
   },
+  variants: {},
   plugins: [],
 };

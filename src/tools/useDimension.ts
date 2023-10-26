@@ -18,3 +18,8 @@ const  useDimension=()=>{
   return size;
 }
 export default useDimension;
+
+export function useWith():number{
+    const size= useDimension()
+    return size.largeur;
+}

@@ -1,16 +1,13 @@
-import React, { FunctionComponent, useContext } from 'react'
-import { Navigate } from 'react-router-dom'
-import useAuth from '../../tools/useAuth'
-import { Authcontext } from '../../App'
+import React, { FunctionComponent } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const NotFound:FunctionComponent = () => {
-  const state= useContext(Authcontext)
+  const navigator= useNavigate()
   return (
     <>
     <div className=' text-7xl text-center'>Cette page n'existe pas dans notre application, mais c'est sans soucis  </div>
-    <div className=' cursor-pointer text-center' onClick={()=><Navigate to={'/'}/>}>Commencer ici</div>
-    <p>{state ? 'stive': 'arnaud'}</p>
-    <p>{state? 'connecte':'deconnecte'}</p>
+    <button className=' cursor-pointer text-center' onClick={()=>{ navigator('/')  ;console.log('ca ne marche pas ')}}>Commencer ici</button>
+
     </>
   )
 }
