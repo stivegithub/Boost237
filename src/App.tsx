@@ -1,4 +1,4 @@
-import { FunctionComponent, createContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import './App.css';
 import Login from './pages/Login/Login';
 import { ThemeContextProvider } from './helper/ThemeContext';
@@ -8,7 +8,8 @@ import Confidentialite from './pages/Confidentialites/Confidentialite';
 import Travailleur from './pages/Travailleurs/Travailleurs';
 import NotFound from './pages/NotFournd/NotFound';
 import axios from 'axios';
-import Crud from './pages/crud/crud';
+import Admin from './pages/Crud/Admin';
+import Add from './pages/Crud/Add';
 
 export const Authcontext= createContext<boolean>(false)
 
@@ -67,7 +68,8 @@ const App =()=>{
       <Route  Component={Confidentialite} path='/politique-confidentialite'/>
       <Route path='/client' element={isAut? <Client/>:<Login/>}/>
       <Route path='/travailleur' element={ isAut? <Travailleur email={userInfo.email}/>: <Login/>}/>
-      <Route path='/crud' element={<Crud/>}/>
+      <Route path='/add' element={<Add/>}/>
+      <Route path='/admin' element={<Admin/>}/>
       <Route  path='*' element={<NotFound/>}/>
       </Routes>
     </BrowserRouter>
